@@ -218,7 +218,7 @@ async function saveProfile() {
     if ($('exfile').files[0]) row.exemption_proof_path = await upload('exemption', $('exfile').files[0]);
     if ($('idfile').files[0]) row.identity_proof_path = await upload('identity', $('idfile').files[0]);
     if (D.profile) await api('sct_profiles?user_id=eq.' + ME.id, { method: 'PATCH', headers: { Prefer: 'return=minimal' }, body: JSON.stringify(row) });
-    else await api('sct_profiles', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify(row) });
+    else await api('sct_profiles', { method: 'POST', headers: { Prefer: 'return=minimal' }, body: JSON.stringify({ ...row, user_id: ME.id }) });
     await load(); draw();
   } catch (e) { $('pstat').textContent = e.message; }
 }
